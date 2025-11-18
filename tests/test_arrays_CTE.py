@@ -9,26 +9,23 @@ DB_CONFIG = {
     "port": 5432
 }
 
-def run_query(query):
-    with psycopg2.connect(**DB_CONFIG) as conn:
-        with conn.cursor() as cur:
-            cur.execute(query)
-            return cur.fetchall()
+# conexión global que usarán los tests
+db_connection = psycopg2.connect(**DB_CONFIG)
 
 def test_etiqueta_tecnologia():
-  with db_connection.cursor() as cur:
+    with db_connection.cursor() as cur:
         cur.execute("SELECT nombre FROM productos WHERE etiqueta @> ARRAY['tecnología'];")
-        resultados = [row[0] for row in db.fetchall()]
-  assert set(resultados) == {"Laptop Dell", "Smartphone Samsung"}
+        resultados = [row[0] for row in cur.fetchall()]
+    assert set(resultados) == {"Laptop Dell", "Smartphone Samsung"}
 
 def test_jerarquia():
-   with db_connection.cursor() as cur:
+    with db_connection.cursor() as cur:
         cur.execute("SELECT * FROM jerarquia_empleados;")
-        resultados = [row[0] for row in db.fetchall()]
-   assert set(resultados) == {"Luis", "Coral", "Marta", "Pedro", "Lupe"}
+        resultados = [row[0] for row in cur.fetchall()]
+    assert set(resultados) == {"Luis", "Coral", "Marta", "Pedro", "Lupe"}
 
 def test_ciudad():
-  with db_connection.cursor() as cur:
+    with db_connection.cursor() as cur:
         cur.execute("SELECT ciudad FROM recorrido;")
-        resultados = {row[0] for row in db.fetchall()}
-  assert resultados == {"A", "B", "C", "D", "E"}
+        resultados = {row[0] for row in cur.fetchall()}
+    assert resultados == {"A", "B", "C", "D", "E"}
