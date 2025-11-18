@@ -24,7 +24,7 @@ def test_etiqueta_tecnologia():
 def test_jerarquia():
    with db_connection.cursor() as cur:
         cur.execute("SELECT * FROM jerarquia_empleados;")
-       resultados = [row[0] for row in db.fetchall()]
+        resultados = [row[0] for row in db.fetchall()]
    assert set(resultados) == {"Luis", "Coral", "Marta", "Pedro", "Lupe"}
 
 def test_ciudad():
